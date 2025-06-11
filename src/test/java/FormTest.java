@@ -22,7 +22,7 @@ public class FormTest {
     static void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("https://www.mts.by/");
+
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         form = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("pay__wrapper")));
