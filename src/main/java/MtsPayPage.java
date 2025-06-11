@@ -18,6 +18,7 @@ public class MtsPayPage {
         driver.get("https://www.mts.by/");
         wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT_IN_SECONDS));
         payForm = waitElement(By.className("pay__wrapper"));
+
     }
 
     // Ожидание
