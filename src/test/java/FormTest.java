@@ -22,8 +22,7 @@ public class FormTest {
     static void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-
-
+        driver.get("https://www.mts.by/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         form = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("pay__wrapper")));
     }
@@ -69,7 +68,7 @@ public class FormTest {
 
         try {
             WebElement cookie = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.cssSelector(".btn.btn_black.cookie__ok")
+                            By.cssSelector(".btn.btn_black.cookie__ok")
                     )
             );
             cookie.click();
@@ -100,3 +99,4 @@ public class FormTest {
     }
 }
 
+    
