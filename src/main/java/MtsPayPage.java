@@ -45,46 +45,85 @@ public class MtsPayPage {
     public WebElement getSumInput() { return payForm.findElement(By.cssSelector(".total_rub#connection-sum")); }
     public WebElement getEmailInput() { return payForm.findElement(By.cssSelector(".email#connection-email")); }
     public WebElement getSubmitButton() { return payForm.findElement(By.cssSelector(".button.button__default ")); }
-    public WebElement getPaymentCredentials() { return payForm.findElement(By.cssSelector(".bepaid-iframe")); }
     public WebElement acceptCookieButton() { return waitElement(By.cssSelector(".btn.btn_black.cookie__ok")); }
     public void selectCommunicationServices() { selectInChoosableElement("Communication services"); }
-    public void selectHomeInternet() { selectInChoosableElement("Home Internet");  }
+    public void selectHomeInternet() { selectInChoosableElement("Home Internet"); }
+    public WebElement getPhoneInputInHomeInternet() { return payForm.findElement(By.cssSelector(".phone#internet-phone")); }
+    public WebElement getSumInHomeInternet() { return payForm.findElement(By.cssSelector(".total_rub#internet-sum")); }
+    public WebElement getMailInHomeInternet() { return payForm.findElement(By.cssSelector(".email#internet-email")); }
     public void selectInstallment() { selectInChoosableElement("Installment");  }
+    public WebElement getScoreInstallment() { return payForm.findElement(By.cssSelector(".score#score-instalment")); }
+    public WebElement getSumInInstallment() { return payForm.findElement(By.cssSelector(".total_rub#instalment-sum")); }
+    public WebElement getMailInInstallment() { return payForm.findElement(By.cssSelector(".email#instalment-email")); }
     public void selectDebt() { selectInChoosableElement("Debt");  }
+    public WebElement getScoreDebt() { return payForm.findElement(By.cssSelector(".score#score-arrears")); }
+    public WebElement getSumInDebt() { return payForm.findElement(By.cssSelector(".total_rub#arrears-sum")); }
+    public WebElement getMailInDebt() { return payForm.findElement(By.cssSelector(".email#arrears-email")); }
 
     // Вспомогательная функция выбора вида услуги
     private void selectInChoosableElement(String serviceName) {
         WebElement chooseButton = payForm.findElement(By.className("select__header"));
         chooseButton.click();
-
-        WebElement selectedOption;
-        List<WebElement> options = chooseButton.findElements(By.tagName("li"));
+        List<WebElement> selectOptions = wait.until(
+                ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".select__item"))
+        );
 
         switch (serviceName) {
             case "Communication services": {
-                selectedOption = options.get(0);
-                waitElement(By.tagName("li"));
-                wait.until(ExpectedConditions.elementToBeClickable(selectedOption));
-                selectedOption.click();
+                selectOptions.get(0).click();
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pay-form#pay-connection")));
+                break;
             }
             case "Home Internet": {
-                selectedOption = options.get(1);
-                selectedOption.click();
+                selectOptions.get(1).click();
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pay-form#pay-internet")));
+                break;
             }
             case "Installment": {
-                selectedOption = options.get(2);
-                selectedOption.click();
+                selectOptions.get(2).click();
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pay-form#pay-instalment")));
+                break;
             }
             case "Debt": {
-                selectedOption = options.get(3);
-                selectedOption.click();
+                selectOptions.get(3).click();
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pay-form#pay-arrears")));
+                break;
             }
+            default: {
+                throw new IllegalArgumentException("Неизвестное имя услуги: " + serviceName);
+            }
+
         }
+
     }
 
 
 
     // Локаторы, когда мы во фрейме CredentialsForm
     public WebElement getCardInput() { return waitElement(By.cssSelector("#cc-number")); }
+
+    public WebElement getCardInputPlaceholderInCredentialsForm() {
+        return waitElement(By.xpath("//input[@id='cc-number']/following-sibling::label"));
+    }
+    public WebElement getCardTimeInCredentialsForm() {
+        return waitElement(By.xpath("//input[@formcontrolname='expirationDate']/following::label[1]"));
+    }
+    public WebElement getCvcPlaceholderInCredentialsForm() {
+        return waitElement(By.xpath("//input[@formcontrolname='cvc']/following::label[1]"));
+    }
+    public WebElement getNamePlaceholderInCredentialsForm() {
+        return waitElement(By.xpath("//input[@formcontrolname='holder']/following::label[1]"));
+    }
+
+    public WebElement getPayCostInCredentialsForm() {
+        return waitElement(By.xpath("//div[@class='pay-description__cost']//span"));
+    }
+    public WebElement getDescriptionCostInCredentialsForm() {
+        return waitElement(By.xpath("//div[@class='pay-description__text']//span"));
+    }
+    public WebElement getSubmitButtonInCredentialsForm() { return waitElement(By.className("colored")); }
+
+
+
 
 }
