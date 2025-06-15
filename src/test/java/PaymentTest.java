@@ -4,10 +4,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import io.qameta.allure.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+@Epic("Тема: Selenium. Часть 2")
+@Feature("UI-тесты с отчетами")
+@Story("Проверка оформления заказа")
+@Severity(SeverityLevel.CRITICAL)
+@DisplayName("Проверка оформления заказа")
 public class PaymentTest {
 
     public static WebDriver driver;
@@ -27,11 +35,13 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка заголовка на странице")
     public void headerTest() {
         Assertions.assertEquals(mtsPayPage.getHeader().getText(), "Онлайн пополнение\nбез комиссии");
     }
 
     @Test
+    @Step("Проверка партнеров")
     public void partnerLogosTest() {
         ArrayList<WebElement> ul = (ArrayList<WebElement>) mtsPayPage.getPartnerLogos().findElements(By.tagName("li"));
         ArrayList<String> logosNames = new ArrayList<>(List.of(
@@ -50,6 +60,7 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка ссылки")
     public void aboutServiceLink() {
         Assertions.assertEquals(
                 "https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/",
@@ -58,6 +69,7 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка формы оплаты")
     public void checkPayFormTest() {
         WebElement phone = mtsPayPage.getPhoneInput();
         WebElement summ = mtsPayPage.getSumInput();
@@ -78,6 +90,7 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка плейсхолдеров")
     public void checkPlaceholdersInCommunicationServices() {
         mtsPayPage.selectCommunicationServices();
         Assertions.assertEquals("Номер телефона", mtsPayPage.getPhoneInput().getAttribute("placeholder"));
@@ -86,6 +99,7 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка плейсхолдеров")
     public void checkPlaceholdersInHomeInternet() {
         mtsPayPage.selectHomeInternet();
         Assertions.assertEquals("Номер абонента", mtsPayPage.getPhoneInputInHomeInternet().getAttribute("placeholder"));
@@ -94,6 +108,7 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка плейсхолдеров")
     public void checkPlaceholdersInInstallment() {
         mtsPayPage.selectInstallment();
         Assertions.assertEquals("Номер счета на 44", mtsPayPage.getScoreInstallment().getAttribute("placeholder"));
@@ -102,6 +117,7 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка плейсхолдеров")
     public void checkPlaceholdersInDebt() {
         mtsPayPage.selectDebt();
         Assertions.assertEquals("Номер счета на 2073", mtsPayPage.getScoreDebt().getAttribute("placeholder"));
@@ -110,6 +126,7 @@ public class PaymentTest {
     }
 
     @Test
+    @Step("Проверка формы оплаты расширенная")
     public void extraCheckPayFormTest() {
         WebElement phone = mtsPayPage.getPhoneInput();
         WebElement summ = mtsPayPage.getSumInput();
