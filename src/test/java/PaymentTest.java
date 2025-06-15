@@ -143,4 +143,5 @@ public class PaymentTest {
         Assertions.assertEquals("Оплата: Услуги связи Номер:375297777777", descriptionCost.getText().trim());
         Assertions.assertEquals("Оплатить 200.00 BYN", submitButton.getText().trim());
     }
+
 }
