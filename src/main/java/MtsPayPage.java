@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class MtsPayPage {
 
@@ -40,14 +41,50 @@ public class MtsPayPage {
     public WebElement getHeader() { return payForm.findElement(By.tagName("h2")); }
     public WebElement getPartnerLogos() { return payForm.findElement(By.className("pay__partners")); }
     public WebElement getAboutServiceLink() { return payForm.findElement(By.tagName("a")); }
-    public WebElement getSelectButton() { return payForm.findElement(By.className("select__now")); }
-    public WebElement getPhonePlaceholder() { return payForm.findElement(By.cssSelector(".phone#connection-phone")); }
-    public WebElement getSumPlaceholder() { return payForm.findElement(By.cssSelector(".total_rub#connection-sum")); }
-    public WebElement getEmailPlaceholder() { return payForm.findElement(By.cssSelector(".email#connection-email")); }
+    public WebElement getPhoneInput() { return payForm.findElement(By.cssSelector(".phone#connection-phone")); }
+    public WebElement getSumInput() { return payForm.findElement(By.cssSelector(".total_rub#connection-sum")); }
+    public WebElement getEmailInput() { return payForm.findElement(By.cssSelector(".email#connection-email")); }
     public WebElement getSubmitButton() { return payForm.findElement(By.cssSelector(".button.button__default ")); }
     public WebElement getPaymentCredentials() { return payForm.findElement(By.cssSelector(".bepaid-iframe")); }
     public WebElement acceptCookieButton() { return waitElement(By.cssSelector(".btn.btn_black.cookie__ok")); }
+    public void selectCommunicationServices() { selectInChoosableElement("Communication services"); }
+    public void selectHomeInternet() { selectInChoosableElement("Home Internet");  }
+    public void selectInstallment() { selectInChoosableElement("Installment");  }
+    public void selectDebt() { selectInChoosableElement("Debt");  }
+
+    // Вспомогательная функция выбора вида услуги
+    private void selectInChoosableElement(String serviceName) {
+        WebElement chooseButton = payForm.findElement(By.className("select__header"));
+        chooseButton.click();
+
+        WebElement selectedOption;
+        List<WebElement> options = chooseButton.findElements(By.tagName("li"));
+
+        switch (serviceName) {
+            case "Communication services": {
+                selectedOption = options.get(0);
+                waitElement(By.tagName("li"));
+                wait.until(ExpectedConditions.elementToBeClickable(selectedOption));
+                selectedOption.click();
+            }
+            case "Home Internet": {
+                selectedOption = options.get(1);
+                selectedOption.click();
+            }
+            case "Installment": {
+                selectedOption = options.get(2);
+                selectedOption.click();
+            }
+            case "Debt": {
+                selectedOption = options.get(3);
+                selectedOption.click();
+            }
+        }
+    }
+
+
+
     // Локаторы, когда мы во фрейме CredentialsForm
-    public WebElement getCardPlaceholder() { return waitElement(By.cssSelector("#cc-number")); }
+    public WebElement getCardInput() { return waitElement(By.cssSelector("#cc-number")); }
 
 }

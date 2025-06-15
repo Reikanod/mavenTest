@@ -1,14 +1,10 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +30,7 @@ public class PaymentTest {
     public void headerTest() {
         Assertions.assertEquals(mtsPayPage.getHeader().getText(), "Онлайн пополнение\nбез комиссии");
     }
+
     @Test
     public void partnerLogosTest() {
         ArrayList<WebElement> ul = (ArrayList<WebElement>) mtsPayPage.getPartnerLogos().findElements(By.tagName("li"));
@@ -48,9 +45,10 @@ public class PaymentTest {
 
             Assertions.assertNotNull(src, "Картинка без src");
             Assertions.assertNotNull(alt, "Картинка без alt");
-            Assertions.assertTrue( logosNames.contains(alt),"Неожданное значение alt: " + alt);
+            Assertions.assertTrue(logosNames.contains(alt), "Неожданное значение alt: " + alt);
         }
     }
+
     @Test
     public void aboutServiceLink() {
         Assertions.assertEquals(
@@ -58,11 +56,12 @@ public class PaymentTest {
                 mtsPayPage.getAboutServiceLink().getAttribute("href")
         );
     }
+
     @Test
     public void checkPayFormTest() {
-        WebElement phone = mtsPayPage.getPhonePlaceholder();
-        WebElement summ = mtsPayPage.getSumPlaceholder();
-        WebElement email = mtsPayPage.getEmailPlaceholder();
+        WebElement phone = mtsPayPage.getPhoneInput();
+        WebElement summ = mtsPayPage.getSumInput();
+        WebElement email = mtsPayPage.getEmailInput();
         WebElement button = mtsPayPage.getSubmitButton();
 
         phone.click();
@@ -74,7 +73,16 @@ public class PaymentTest {
         button.click();
 
         mtsPayPage.moveToPaymentCredentialsFrame();
-        WebElement card = mtsPayPage.getCardPlaceholder();
+        WebElement card = mtsPayPage.getCardInput();
         Assertions.assertTrue(card.isDisplayed());
     }
+
+    @Test
+    public void checkPlaceholdersInCommunicationServices() {
+        mtsPayPage.selectCommunicationServices();
+        Assertions.assertEquals("Номер телефона", mtsPayPage.getPhoneInput().getAttribute("placeholder"));
+        Assertions.assertEquals("Сумма", mtsPayPage.getSumInput().getAttribute("placeholder"));
+        Assertions.assertEquals("E-mail для отправки чека", mtsPayPage.getEmailInput().getAttribute("placeholder"));
+    }
+
 }
